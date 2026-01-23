@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Login - CRUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+        }
+        .result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #45a049; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .user-info { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔐 Teste de Autenticação - Sistema CRUD</h1>
+        
+        <div class="test-section">
+            <h2>📋 Usuários Disponíveis</h2>
+            <div class="info">
+                <strong>Usuário Admin:</strong><br>
+                Login: <code>admin</code><br>
+                Email: vl56fmelo@gmail.com<br>
+                Role: 111 (Admin completo)
+            </div>
+            <div class="info" style="margin-top: 10px;">
+                <strong>Usuário Reinaldo:</strong><br>
+                Login: <code>reinaldo</code><br>
+                Email: noc@evolutionet.com.br<br>
+                Role: 001 (Leitura)
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Teste 1: Login com 'admin'</h2>
+            <label>Senha para testar: <input type="password" id="senha1" value="admin123"></label>
+            <button onclick="testarLogin('admin', document.getElementById('senha1').value, 'resultado1')">Testar Login Admin</button>
+            <div id="resultado1"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Teste 2: Login com 'reinaldo'</h2>
+            <label>Senha para testar: <input type="password" id="senha2" value="123456"></label>
+            <button onclick="testarLogin('reinaldo', document.getElementById('senha2').value, 'resultado2')">Testar Login Reinaldo</button>
+            <div id="resultado2"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Teste 3: Login Inválido</h2>
+            <button onclick="testarLogin('invalido', 'senhaerrada', 'resultado3')">Testar Credenciais Inválidas</button>
+            <div id="resultado3"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Verificar Sessão Atual</h2>
+            <button onclick="verificarSessao()">Verificar Sessão</button>
+            <div id="sessao"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🚪 Logout</h2>
+            <button onclick="fazerLogout()">Fazer Logout</button>
+            <div id="logout"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testarLogin(login, senha, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = '<p>⏳ Testando...</p>';
+
+            try {
+                const formData = new FormData();
+                formData.append('login', login);
+                formData.append('senha', senha);
+
+                const response = await fetch('/crud/api/login.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ LOGIN BEM-SUCEDIDO!</h3>
+                            <div class="user-info">
+                                <strong>Nome:</strong> ${data.usuario.nome}<br>
+                                <strong>Email:</strong> ${data.usuario.email}<br>
+                                <strong>Login:</strong> ${data.usuario.login}<br>
+                                <strong>Role:</strong> ${data.usuario.role}<br>
+                                <strong>ID:</strong> ${data.usuario.id}
+                            </div>
+                            <p><em>Sessão iniciada com sucesso!</em></p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ FALHA NO LOGIN</h3>
+                            <p><strong>Erro:</strong> ${data.error || 'Credenciais inválidas'}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ ERRO DE CONEXÃO</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function verificarSessao() {
+            const sessaoDiv = document.getElementById('sessao');
+            sessaoDiv.innerHTML = '<p>⏳ Verificando...</p>';
+
+            try {
+                const response = await fetch('/crud/api/listar_usuario.php', {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    sessaoDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ SESSÃO ATIVA</h3>
+                            <p>Você está autenticado no sistema.</p>
+                        </div>
+                    `;
+                } else {
+                    sessaoDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ SEM SESSÃO</h3>
+                            <p>Você não está autenticado.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                sessaoDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ ERRO</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function fazerLogout() {
+            const logoutDiv = document.getElementById('logout');
+            logoutDiv.innerHTML = '<p>⏳ Saindo...</p>';
+
+            try {
+                const response = await fetch('/logout.php', {
+                    credentials: 'include'
+                });
+
+                logoutDiv.innerHTML = `
+                    <div class="result success">
+                        <h3>✅ LOGOUT REALIZADO</h3>
+                        <p>Sessão encerrada com sucesso.</p>
+                    </div>
+                `;
+            } catch (error) {
+                logoutDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ ERRO</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

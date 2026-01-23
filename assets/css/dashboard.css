@@ -1,3 +1,132 @@
+/* ===============================
+   MELHORIA VISUAL DA TABELA
+   =============================== */
+#tabela {
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(99,102,241,0.07);
+  overflow: hidden;
+  background: rgba(255,255,255,0.98);
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 auto;
+  table-layout: fixed;
+}
+
+#tabela thead th {
+  background: linear-gradient(90deg, #f5f7fa 60%, #e0e7ef 100%);
+  color: #23272f;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e7ef;
+  text-align: center;
+}
+
+#tabela tbody tr {
+  background: rgba(245,247,250,0.95);
+  transition: background 0.2s;
+}
+#tabela tbody tr:nth-child(even) {
+  background: rgba(230,235,245,0.95);
+}
+#tabela tbody tr:hover {
+  background: #e0e7ef;
+}
+
+#tabela td, #tabela th {
+  border-right: 1px solid #e0e7ef;
+  border-bottom: 1px solid #e0e7ef;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#tabela th:last-child, #tabela td:last-child {
+  border-right: none;
+}
+#tabela tr:last-child td {
+  border-bottom: none;
+}
+
+#tabela td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Responsividade extra para tabelas grandes */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 900px) {
+  #tabela th, #tabela td {
+    font-size: 0.92em;
+    padding: 3px 4px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #tabela th, #tabela td {
+    font-size: 0.85em;
+    padding: 2px 2px !important;
+  }
+  #tabela {
+    border-radius: 6px;
+  }
+}
+/* ===============================
+   FIM MELHORIA VISUAL DA TABELA
+   =============================== */
+/* ===============================
+  Customização: Colunas da tabela
+  Para configurar largura, alinhamento ou cor de colunas específicas,
+  adicione regras abaixo usando seletores como:
+  #tabela th:nth-child(1), #tabela td:nth-child(1) { width: 80px; text-align: left; }
+  #tabela th:nth-child(2), #tabela td:nth-child(2) { width: 120px; }
+  Exemplo de uso prático:
+  #tabela th:nth-child(1), #tabela td:nth-child(1) { width: 100px; text-align: left; }
+  #tabela th:nth-child(2), #tabela td:nth-child(2) { width: 140px; text-align: center; }
+  #tabela th:nth-child(3), #tabela td:nth-child(3) { width: 120px; text-align: right; }
+  =============================== */
+
+/* Exemplo prático de customização de colunas: */
+#tabela th:nth-child(1), #tabela td:nth-child(1) { width: 100px; text-align: left; }
+#tabela th:nth-child(2), #tabela td:nth-child(2) { width: 140px; text-align: center; }
+#tabela th:nth-child(3), #tabela td:nth-child(3) { width: 120px; text-align: right; }
+
+/* ===============================
+  Fim da customização de colunas da tabela
+  =============================== */
+/* ===============================
+  Customização: Colunas da tabela
+  Para configurar largura, alinhamento ou cor de colunas específicas,
+  adicione regras abaixo usando seletores como:
+  #tabela th:nth-child(1), #tabela td:nth-child(1) { width: 80px; text-align: left; }
+  #tabela th:nth-child(2), #tabela td:nth-child(2) { width: 120px; }
+  Exemplo de uso prático:
+  #tabela th:nth-child(1), #tabela td:nth-child(1) { width: 100px; }
+  #tabela th:nth-child(3), #tabela td:nth-child(3) { text-align: right; }
+  =============================== */
+
+/* Adicione suas configurações de colunas personalizadas abaixo: */
+
+/* ===============================
+  Fim da customização de colunas da tabela
+  =============================== */
+/* Tabela <thead> mais compacto */
+#tabela thead th {
+  padding: 4px 8px !important;
+  font-size: 0.97em;
+  line-height: 1.2;
+  height: 28px;
+  vertical-align: middle;
+}
+/* Tabela <tbody> mais compacto */
+#tabela tbody td {
+  padding: 4px 8px !important;
+  font-size: 0.95em;
+  line-height: 1.2;
+  height: 28px;
+  vertical-align: middle;
+}
 /* ============================================================================
    DASHBOARD/PAINEL - Glassmorphism + Neo-minimalismo
    ============================================================================ */
@@ -7,11 +136,118 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
-  background: var(--bg-body);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-shell.sidebar-collapsed {
+  grid-template-columns: 56px 1fr;
+}
+
+/* Quando sidebar recolhido, topbar e main-content ocupam mais espaço */
+.app-shell.sidebar-collapsed .main-content {
+  margin-left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-shell.sidebar-collapsed .topbar {
+  left: 56px;
+  width: calc(100vw - 56px);
+  transition: left 0.3s, width 0.3s;
+}
+
+.app-shell.sidebar-collapsed .table-responsive {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: auto !important;
+}
+
+/* ===============================
+  Customização: Container responsivo da tabela
+  Para garantir que a tabela nunca ultrapasse o body/container,
+  use width: 100% e max-width: 100%.
+  Altere aqui se quiser limitar a largura máxima do container.
+  =============================== */
+.table-responsive {
+  box-sizing: border-box;
+  width: 100%; /* Nunca use 100vw aqui! */
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 0;
+  overflow-x: auto;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* ===============================
+  Fim da customização do container responsivo
+  =============================== */
+
+  /* ===============================
+     Customização: Largura máxima da tabela
+     Altere o valor de max-width abaixo para definir a largura máxima da tabela.
+     Exemplo: 900px, 700px, 100% etc.
+     Para deixar a tabela mais larga ou mais estreita, basta mudar este valor.
+     =============================== */
+  .table-responsive table {
+    width: 100%;
+    max-width: 100%; /* <-- ALTERE AQUI para mudar a largura máxima da tabela */
+    min-width: 0;
+    margin: 0 auto;
+    table-layout: fixed;
+    box-sizing: border-box;
+    word-break: break-word;
+  }
+  /* ===============================
+     Fim da customização de largura da tabela
+     =============================== */
+
+.app-shell.sidebar-collapsed .table-wrapper,
+.app-shell.sidebar-collapsed .table-header {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 body.dark-mode .app-shell {
-  background: linear-gradient(135deg, #0c1226 0%, #1a1f3a 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+@media (max-width: 1024px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  
+  .app-shell.sidebar-collapsed {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    transition: left var(--duration-slow) var(--easing-ease-out);
+    z-index: var(--z-modal);
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar.collapsed {
+    left: -80px;
+  }
+  
+  .sidebar.collapsed.open {
+    left: 0;
+  }
 }
 
 .sidebar {
@@ -19,26 +255,175 @@ body.dark-mode .app-shell {
   top: 0;
   height: 100vh;
   padding: var(--space-xl);
-  background: var(--glass-strong);
-  border-right: var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  box-shadow: var(--shadow-md);
+  background: rgba(255, 255, 255, 0.95);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
   z-index: var(--z-dropdown);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #4f46e5, #db2777);
+}
+
+.sidebar.collapsed {
+  width: 56px;
+  padding: 0;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar.collapsed .sidebar__logo,
+.sidebar.collapsed .sidebar__brand-text,
+.sidebar.collapsed .sidebar__title,
+.sidebar.collapsed .sidebar__subtitle {
+  display: none;
+}
+
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .nav-item span {
+  display: none;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 0.4rem 0 !important;
+  font-size: 0;
+  min-width: 40px;
+}
+
+.sidebar.collapsed .nav-item i {
+  font-size: 1.1rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 body.dark-mode .sidebar {
-  background: rgba(26, 31, 58, 0.82);
+  background: rgba(30, 41, 59, 0.95);
   border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .sidebar__brand {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  position: relative;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  right: -16px;
+  top: 12px;
+  transform: translateY(0);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.9);
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(79, 70, 229, 1);
+  transform: translateY(0) scale(1.1);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: -16px;
+  transform: translateX(-50%);
+  z-index: 101;
+  background: var(--sidebar-bg, #23272f);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  padding: 0;
+}
+
+.sidebar.collapsed .sidebar__brand {
+  position: relative;
+  min-height: 0;
+  padding: 0;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+  
+  .sidebar-toggle {
+    display: none;
+  }
+  
+  /* Overlay para mobile quando sidebar aberta */
+  .sidebar.open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+    animation: fadeIn 0.3s ease-out;
+  }
 }
 
 .sidebar__logo {
@@ -142,24 +527,120 @@ body.dark-mode .nav-label { color: var(--ink-400); }
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: 0.8rem 0.9rem;
-  border-radius: var(--radius-md);
-  color: var(--ink-800);
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-lg);
+  color: var(--ink-700);
   text-decoration: none;
-  transition: all var(--duration-fast) var(--easing-ease-out);
+  font-weight: 500;
+  transition: all var(--duration-normal) var(--easing-ease-out);
+  position: relative;
 }
 
-.nav-item:hover,
+/* Tooltip quando sidebar collapsed */
+.sidebar.collapsed .nav-item::after {
+  content: attr(data-title);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  background: var(--ink-900);
+  color: var(--white);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar.collapsed .nav-item::before {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: var(--ink-900);
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.sidebar.collapsed .nav-item:hover::after {
+  transform: translateY(-50%) scale(1);
+  opacity: 1;
+}
+
+.sidebar.collapsed .nav-item:hover::before {
+  opacity: 1;
+}
+
+body.dark-mode .sidebar.collapsed .nav-item::after {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink-900);
+}
+
+body.dark-mode .sidebar.collapsed .nav-item::before {
+  border-right-color: rgba(255, 255, 255, 0.95);
+}
+
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.nav-item span {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .nav-item span {
+  width: 0;
+  opacity: 0;
+}
+
+.nav-item:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--primary);
+  transform: translateX(4px);
+}
+
+.nav-item:hover i {
+  transform: scale(1.1);
+}
+
 .nav-item.active {
-  background: rgba(91, 107, 255, 0.14);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.1));
   color: var(--primary-strong);
-  box-shadow: inset 0 0 0 1px rgba(91, 107, 255, 0.28), var(--shadow-xs);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
-body.dark-mode .nav-item { color: var(--ink-100); }
-body.dark-mode .nav-item:hover,
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: var(--primary);
+  border-radius: 0 4px 4px 0;
+}
+
+body.dark-mode .nav-item { color: var(--ink-200); }
+body.dark-mode .nav-item:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--primary-light);
+}
 body.dark-mode .nav-item.active {
-  background: rgba(91, 107, 255, 0.24);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.2));
   color: var(--white);
 }
 
@@ -186,13 +667,15 @@ body.dark-mode .sidebar__footer { border-color: rgba(255, 255, 255, 0.08); }
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-xl);
-  background: var(--glass-soft);
-  border-bottom: var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
-  z-index: var(--z-dropdown);
+  z-index: var(--z-fixed);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .topbar::after {

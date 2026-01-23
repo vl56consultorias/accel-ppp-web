@@ -8,29 +8,67 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--space-lg);
-    background: var(--gradient-cool);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+    animation: float 20s ease-in-out infinite;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%);
+    animation: float 25s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, 30px); }
 }
 
 body.dark-mode {
-    background: var(--gradient-dark);
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
 }
 
 .login-wrapper {
     width: 100%;
     max-width: 480px;
-    background: var(--glass-strong);
-    border: var(--glass-border);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-strong);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     overflow: hidden;
     animation: slideUp 0.5s ease-out;
+    position: relative;
+    z-index: 1;
 }
 
 body.dark-mode .login-wrapper {
-    background: rgba(26, 31, 58, 0.92);
+    background: rgba(30, 27, 75, 0.95);
     border-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 640px) {
+    .login-wrapper {
+        max-width: 100%;
+        margin: var(--space-md);
+    }
 }
 
 @keyframes slideUp {
@@ -120,30 +158,37 @@ body.dark-mode .form-label {
     width: 100%;
     padding: 1rem 1.125rem;
     border-radius: var(--radius-lg);
-    border: 1.5px solid rgba(12, 18, 38, 0.08);
-    background: rgba(255, 255, 255, 0.88);
+    border: 2px solid rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     color: var(--ink-900);
     font-family: inherit;
     font-size: 1rem;
+    font-weight: 500;
     transition: all var(--duration-normal) var(--easing-ease-out);
     backdrop-filter: blur(8px);
 }
 
 body.dark-mode .form-input {
-    background: rgba(26, 31, 58, 0.78);
+    background: rgba(49, 46, 129, 0.6);
     border-color: rgba(255, 255, 255, 0.1);
     color: var(--ink-50);
 }
 
+.form-input:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
 .form-input:focus {
     outline: none;
-    border-color: rgba(91, 107, 255, 0.8);
-    box-shadow: 0 0 0 4px rgba(91, 107, 255, 0.12);
-    background: rgba(255, 255, 255, 0.96);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 4px 12px rgba(99, 102, 241, 0.15);
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
 }
 
 body.dark-mode .form-input:focus {
-    background: rgba(26, 31, 58, 0.88);
+    background: rgba(49, 46, 129, 0.8);
+    border-color: #818cf8;
 }
 
 .form-input::placeholder {

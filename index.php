@@ -115,8 +115,17 @@ if (count($linhas) > 0) {
 <title>Painel de Controle - Concentradores</title>
 <link rel="stylesheet" href="/global.css">
 <link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 <body id="panelBody">
@@ -130,60 +139,50 @@ if (count($linhas) > 0) {
             </div>
         </div>
 
-        <div class="sidebar__user">
-            <div class="avatar">
-                <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="sidebar__user-info">
-                <strong><?= escapar($_SESSION['usuario']['nome'] ?? 'Nome'); ?></strong>
-                <span><?= escapar($_SESSION['usuario']['email'] ?? 'email@exemplo.com'); ?></span>
-            </div>
-        </div>
-
-                <nav class="sidebar__nav" aria-label="Menu principal">
+        <nav class="sidebar__nav" aria-label="Menu principal">
             <div class="nav-group">
                 <div class="nav-label">Principal</div>
-                <a class="nav-item active" href="/index.php"><i class="bi bi-house"></i> Início</a>
+                <a class="nav-item active" href="/index.php" data-title="Início"><i class="bi bi-house"></i> Início</a>
             </div>
 
             <?php if (temPermissao($permissoes,0)||temPermissao($permissoes,1)||temPermissao($permissoes,2)): ?>
             <div class="nav-group">
                 <div class="nav-label">Ferramentas</div>
-                        <a class="nav-item" href="#stats"><i class="bi bi-activity"></i> Status Conectados</a>
-                        <a class="nav-item" href="/backups/"><i class="bi bi-journal-text"></i> Logs accel-ppp</a>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-speedometer"></i> Tráfego</a>
+                        <a class="nav-item" href="#stats" data-title="Status Conectados"><i class="bi bi-activity"></i> Status Conectados</a>
+                        <a class="nav-item" href="/backups/" data-title="Logs accel-ppp"><i class="bi bi-journal-text"></i> Logs accel-ppp</a>
+                        <a class="nav-item" href="#tableSection" data-title="Tráfego"><i class="bi bi-speedometer"></i> Tráfego</a>
             </div>
             <?php endif; ?>
 
             <?php if (temPermissao($permissoes,1)||temPermissao($permissoes,2)): ?>
             <div class="nav-group">
                 <div class="nav-label">Configurações</div>
-                        <a class="nav-item" href="/crud/api/listar_usuario.php" target="_blank"><i class="bi bi-people"></i> Usuários</a>
-                        <a class="nav-item" href="/crud/api/criar_usuario.php" target="_blank"><i class="bi bi-person-plus"></i> Cadastrar usuário</a>
+                        <a class="nav-item" href="/crud/api/listar_usuario.php" data-title="Usuários"><i class="bi bi-people"></i> Usuários</a>
+                        <a class="nav-item" href="/crud/api/criar_usuario.php" data-title="Cadastrar usuário"><i class="bi bi-person-plus"></i> Cadastrar usuário</a>
             </div>
             <?php endif; ?>
 
             <?php if (temPermissao($permissoes,2)): ?>
             <div class="nav-group">
                 <div class="nav-label">Integração</div>
-                        <a class="nav-item" href="/index.php#tableSection"><i class="bi bi-diagram-3"></i> Listar Sessões</a>
-                        <a class="nav-item" href="/index.php#tableSection"><i class="bi bi-table"></i> Tabela Completa</a>
+                        <a class="nav-item" href="/index.php#tableSection" data-title="Listar Sessões"><i class="bi bi-diagram-3"></i> Listar Sessões</a>
+                        <a class="nav-item" href="/index.php#tableSection" data-title="Tabela Completa"><i class="bi bi-table"></i> Tabela Completa</a>
             </div>
 
             <div class="nav-group">
                 <div class="nav-label">Administração</div>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-hdd-network"></i> Configuração de VLAN</a>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-shield-lock"></i> Firewall</a>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-diagram-2"></i> Roteamento OSPF</a>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-diagram-3-fill"></i> Roteamento BGP</a>
-                        <a class="nav-item" href="#tableSection"><i class="bi bi-gear"></i> Sistema</a>
+                        <a class="nav-item" href="#tableSection" data-title="Configuração de VLAN"><i class="bi bi-hdd-network"></i> Configuração de VLAN</a>
+                        <a class="nav-item" href="#tableSection" data-title="Firewall"><i class="bi bi-shield-lock"></i> Firewall</a>
+                        <a class="nav-item" href="#tableSection" data-title="Roteamento OSPF"><i class="bi bi-diagram-2"></i> Roteamento OSPF</a>
+                        <a class="nav-item" href="#tableSection" data-title="Roteamento BGP"><i class="bi bi-diagram-3-fill"></i> Roteamento BGP</a>
+                        <a class="nav-item" href="#tableSection" data-title="Sistema"><i class="bi bi-gear"></i> Sistema</a>
             </div>
             <?php endif; ?>
         </nav>
 
-        <div class="sidebar__footer">
-            <a class="nav-item nav-item--danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a>
-        </div>
+        <!-- <div class="sidebar__footer">
+            <a class="nav-item nav-item--danger" href="logout.php" data-title="Sair"><i class="bi bi-box-arrow-right"></i> Sair</a>
+        </div> -->
     </aside>
 
     <div class="main-content">
@@ -196,9 +195,37 @@ if (count($linhas) > 0) {
                 <button class="icon-button" id="themeToggle" aria-label="Alternar tema">
                     <i class="bi" id="themeIcon"></i>
                 </button>
-                <div class="user-chip">
-                    <div class="avatar avatar--small"><i class="bi bi-person-fill"></i></div>
-                    <span><?= escapar($_SESSION['usuario']['nome'] ?? 'Nome'); ?></span>
+                
+                <!-- Dropdown de Perfil -->
+                <div class="dropdown" id="profileDropdown">
+                    <button class="icon-button" id="profileToggle" title="Perfil">
+                        <i class="bi bi-person-circle"></i>
+                    </button>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dropdown-user-info">
+                                <strong><?= escapar($_SESSION['usuario']['nome'] ?? 'Nome'); ?></strong>
+                                <span><?= escapar($_SESSION['usuario']['email'] ?? 'email@exemplo.com'); ?></span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="/index.php" class="dropdown-item">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Painel</span>
+                        </a>
+                        <a href="/configuracoes.php" class="dropdown-item">
+                            <i class="bi bi-gear"></i>
+                            <span>Configurações</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout.php" class="dropdown-item dropdown-item--danger">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sair</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -394,8 +421,37 @@ function mostrarTrafego(ip){
     themeBtn.addEventListener('click',()=>setTheme(!document.body.classList.contains('dark-mode')));
     setTheme(localStorage.getItem('theme')==='dark');
 
+    // Profile Dropdown
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileToggle = document.getElementById('profileToggle');
+    const profileMenu = document.getElementById('profileMenu');
+
+    if (profileToggle && profileDropdown) {
+        profileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('open');
+        });
+
+        // Fechar ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('open');
+            }
+        });
+
+        // Fechar ao clicar em item do menu
+        if (profileMenu) {
+            profileMenu.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    profileDropdown.classList.remove('open');
+                });
+            });
+        }
+    }
+
 })();
 
 </script>
+<script src="/assets/js/sidebar-toggle.js"></script>
 </body>
 </html>
