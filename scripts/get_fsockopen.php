@@ -1,1 +1,0 @@
-<?php $fp = fsockopen('127.0.0.1', '2001', $errno, $errstr, $timeout = null);?>
